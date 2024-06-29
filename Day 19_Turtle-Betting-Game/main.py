@@ -14,12 +14,13 @@ for i in range(-150,150,10):
         draw.penup()
     draw.goto(300,i)
 
-colours=['red','yellow','purple','blue','green']
+colours=['red','yellow','green','blue','purple']
 y_cord=-100
 for i in range(5):
     turtles.append(Turtle("turtle"))
     turtles[i].color(colours[i])
     turtles[i].penup()
+for i in range(4,-1,-1):
     turtles[i].goto(-300, y_cord)
     y_cord += 50
 
