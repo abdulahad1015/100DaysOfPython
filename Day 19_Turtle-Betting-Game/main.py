@@ -14,21 +14,14 @@ for i in range(-150,150,10):
         draw.penup()
     draw.goto(300,i)
 
-
-
-for i in range(5):
-    turtles.append(Turtle())
-turtles[0].color('red')
-turtles[1].color('yellow')
-turtles[2].color('purple')
-turtles[3].color('blue')
-turtles[4].color('green')
-
+colours=['red','yellow','purple','blue','green']
 y_cord=-100
-for i in turtles:
-    i.penup()
-    i.goto(-300,y_cord)
-    y_cord+=50
+for i in range(5):
+    turtles.append(Turtle("turtle"))
+    turtles[i].color(colours[i])
+    turtles[i].penup()
+    turtles[i].goto(-300, y_cord)
+    y_cord += 50
 
 user_bet=screen.textinput("Make your bet","Which turtle will win the race ? Enter a Color: ")
 
