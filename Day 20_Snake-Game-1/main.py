@@ -1,56 +1,72 @@
 import turtle
 from turtle import Turtle,Screen
 import random
+import time
 from snake import Snake
 screen=Screen()
 screen.setup(1000,600)
 screen.bgcolor("black")
 screen.title("My Snake Game")
 
+
+
 snake=Snake()
 screen.listen()
-key =0
 
+key =0
 def up():
-    key=1
-    screen.delay(0.5)
-    snake.up()
-    screen.update()
+    global key
+    if (key != 2):
+        key = 1
 
 def down():
-    key=2
-    screen.delay(0.5)
-    snake.down()
-    screen.update()
+    global key
+    if (key != 1):
+        key = 2
 
 def left():
-    key = 3
-    screen.delay(0.5)
-    snake.left()
-    screen.update()
+    global key
+    if (key != 4):
+        key = 3
 
 def right():
-    key=4
-    screen.delay(0.5)
-    snake.right()
-    screen.update()
-
+    global key
+    if (key != 3):
+        key = 4
 screen.onkey(up,"w")
 screen.onkey(down,"s")
 screen.onkey(left,"a")
 screen.onkey(right,"d")
 
-while(1):
-    screen.listen()
+
+while(True):
+    screen.update()
     if(key==1):
         screen.delay(0.5)
-        snake.up()
+        if (snake.up()):
+            print("Game Over")
+            break
         screen.update()
     if (key == 2):
-        snake.down()
+        screen.delay(0.5)
+        if(snake.down()):
+            print("Game Over")
+            break
+        screen.update()
     if (key == 3):
-        snake.left()
+        screen.delay(0.5)
+        if (snake.left()):
+            print("Game Over")
+            break
+        screen.update()
     if (key == 4):
-        snake.right()
+        screen.delay(0.5)
+        if (snake.right()):
+            print("Game Over")
+            break
+    time.sleep(0.1)
 
+print("Your score is : ",snake.score)
 screen.exitonclick()
+screen.mainloop()
+
