@@ -23,9 +23,7 @@ while(score<50):
     answer_state=answer_state.title()
     state = data[data["state"] == answer_state]
     if(answer_state=="Exit"):
-        for i in all_states:
-            if i not in guessed_states:
-                not_guessed.append(i)
+        not_guessed=[i for i in all_states if i not in guessed_states]
         new_data=pandas.DataFrame(not_guessed)
         new_data.to_csv("states_to_learn.csv")
 
@@ -35,7 +33,7 @@ while(score<50):
         continue
 
     score+=1
-    guessed_states.append(answer_state)
+    guessed_states.append(answer_state) 
     x = state.iloc[0].x
     y = state.iloc[0].y
     name_draw.goto(x,y)
