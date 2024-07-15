@@ -1,5 +1,14 @@
 from tkinter import *
+import os
+#To Compile:  pyinstaller --onefile --windowed --add-data "tomato.ico:." --add-data "tomato.png:." --icon=tomato.ico main.py
+#Important for compilation: resource_path("tomato.png")
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
 
+    return os.path.join(base_path, relative_path)
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -16,13 +25,14 @@ check_string=""
 
 # ---------------------------- TIMER RESET ------------------------------- #
 def reset_timer():
-    global reset,check_string,reps
+    global reset,check_string,reps,clock_running
     reset = True
     canvas.itemconfig(timer_text, text="00:00")
     check_string = ""
     check_marks.config(text=check_string)
     reps=0
     canvas.itemconfig(text, text=f"Timer", fill=GREEN)
+    clock_running=False
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
     global reps, reset, clock_running
@@ -71,8 +81,10 @@ def count_down(count):
 window = Tk()
 window.title("Pomodoro")
 window.config(padx=50, pady=50, bg=YELLOW)
+window.iconbitmap(resource_path("tomato.ico"))
 
-tomato_img = PhotoImage(file="tomato.png")
+
+tomato_img = PhotoImage(file=(resource_path("tomato.png")))
 fg = GREEN
 
 canvas = Canvas(width=250, height=300, bg=YELLOW, highlightthickness=0)

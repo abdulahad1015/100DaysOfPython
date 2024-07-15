@@ -1,7 +1,7 @@
 import turtle
 from turtle import Screen,Turtle
 from random import randint
-import colorgram
+
 
 tim = Turtle()
 screen=Screen()
