@@ -1,14 +1,8 @@
 from tkinter import *
 import os
-#To Compile:  pyinstaller --onefile --windowed --add-data "tomato.ico:." --add-data "tomato.png:." --icon=tomato.ico main.py
+import time
+#To Compile:   pyinstaller --onefile --windowed --add-data "tomato.ico:." --add-data "tomato.png:." --icon=tomato.ico --name="Pomodoro" main.py
 #Important for compilation: resource_path("tomato.png")
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -22,6 +16,20 @@ reps = 0
 reset = False
 clock_running = False
 check_string=""
+#---------------------------------------------------------------------------#
+def bring_front():
+    window.lift()
+    window.attributes("-topmost", True)
+    window.focus_force()
+    window.attributes("-topmost", False)
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 # ---------------------------- TIMER RESET ------------------------------- #
 def reset_timer():
@@ -40,15 +48,15 @@ def start_timer():
     if (clock_running == True and reps == 0):
         return
     clock_running = True
-    if (reps % 8 == 0 and reps!=0):
+    if (reps == 7 and reps!=0):
         canvas.itemconfig(text, text=f"Break", fill=RED)
-        count_down(LONG_BREAK_MIN * 60)
+        count_down(LONG_BREAK_MIN * 1)
     elif (reps % 2 == 0):
         canvas.itemconfig(text, text=f"Work", fill=GREEN)
-        count_down(WORK_MIN * 60)
+        count_down(WORK_MIN * 1)
     else:
         canvas.itemconfig(text, text=f"Break", fill=PINK)
-        count_down(SHORT_BREAK_MIN * 60)
+        count_down(SHORT_BREAK_MIN * 1)
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 def count_down(count):
@@ -66,14 +74,15 @@ def count_down(count):
     if count >= 0:
         window.after(1000, count_down, count - 1)
     else:
-        # window.after_cancel(a)
         reps += 1
-        if(reps%2==0):
+        if(reps%2==1):
             check_string= check_string + "✔"
             check_marks.config(text=check_string)
-        if(reps==9):
+        if(reps==8):
             reset_timer()
+        bring_front()
         start_timer()
+
         return
 
 
