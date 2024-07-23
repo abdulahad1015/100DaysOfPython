@@ -5,6 +5,8 @@ COMPANY_NAME = "Tesla Inc"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
+STOCK_API_KEY="IGA7PQW68PK9U7AM"
+NEWS_API_KEY="3603d163743149969facee817a7d79a6"
 
 
     ## STEP 1: Use https://www.alphavantage.co/documentation/#daily
