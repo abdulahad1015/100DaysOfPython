@@ -9,14 +9,13 @@ import requests
 import lxml
 
 response = requests.get(URL)
-yc_web_page=response.text
+yc_web_page = response.text
 
-soup = BeautifulSoup(yc_web_page,"html.parser")
-titles=[i.getText() for i in soup.findAll(name="h3")]
+soup = BeautifulSoup(yc_web_page, "html.parser")
+titles = [i.getText() for i in soup.findAll(name="h3")]
 titles = titles[::-1]
 
-with open("Movies.txt",mode="w",encoding="utf-8") as file:
+with open("Movies.txt", mode="w", encoding="utf-8") as file:
     for i in titles:
         file.write(f"{i}\n")
 # print(soup.prettify())
-
