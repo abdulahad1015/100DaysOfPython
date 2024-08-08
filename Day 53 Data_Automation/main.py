@@ -1,9 +1,9 @@
 import time
-
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
 import requests
 import re
 chrome_options = webdriver.ChromeOptions()
@@ -23,10 +23,12 @@ zillow= response.text
 
 soup=BeautifulSoup(zillow,"html.parser")
 listing=(soup.findAll(name="li",class_="ListItem-c11n-8-84-3-StyledListCardWrapper"))
+
+driver.get("https://forms.gle/gMmRqnwvA2J6Z3uP7")
+
 for i in listing:
 
-    driver.get("https://forms.gle/gMmRqnwvA2J6Z3uP7")
-    time.sleep(2)
+    time.sleep(1)
 
     address=i.find(name="address").getText()
     address = address.strip()
@@ -51,6 +53,8 @@ for i in listing:
 
     submit=driver.find_element(By.XPATH, '//div[@role="button" and @aria-label="Submit"]')
     submit.click()
+    driver.get("https://forms.gle/gMmRqnwvA2J6Z3uP7")
+
 
 
 driver.quit()
