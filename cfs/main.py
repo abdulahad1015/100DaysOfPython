@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time,os
 from dotenv import load_dotenv, find_dotenv
+from random import random
 from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,10 +15,17 @@ class InstaFollower:
         self.EMAIL = os.getenv("INSTA_EMAIL")
         self.PASSWORD = os.getenv("INSTA_PASSWORD")
 
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_experimental_option("detach", True)
         self.driver = webdriver.Chrome()
-        self.driver.get("https://www.instagram.com")
+        self.driver.get("https://www.amazon.com/dp/B075CYMYK6?th=1")
         self.followers=[]
-        time.sleep(1)
+        time.sleep(12)
+        username = self.driver.find_element(By.ID, value="username1")
+        for i in self.EMAIL:
+            username.send_keys(i)
+            time.sleep(random(0,10)/10)
+
     def login(self):
         username = self.driver.find_element(By.NAME, value="username")
         username.send_keys(self.EMAIL)
@@ -54,9 +62,9 @@ class InstaFollower:
             time.sleep(2)
 
 a=InstaFollower()
-a.login()
-a.find_accounts()
-a.follow()
+# a.login()
+# a.find_accounts()
+# a.follow()
 
 # /html/body/div[6]/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/div/div/div/div[3]/div/button/div/div
 # /html/body/div[6]/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div/div[3]/div/button/div/div
