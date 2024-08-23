@@ -66,6 +66,7 @@ Chihuahua
 $0/mo
 5 Matches Per Day
 10 Messages Per Day
+10 Messages Per Day
 Unlimited App Usage
 
 Labrador
