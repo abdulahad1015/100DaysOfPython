@@ -1,5 +1,4 @@
-from flask import Flask, render_template
-import requests
+from flask import Flask, render_template,request
 from post import Post
 
 articles = Post()
@@ -14,13 +13,18 @@ app = Flask(__name__)
 def home_page():
     return render_template("index.html", posts=articles.posts)
 
+@app.route("/contact",methods=['GET','POST'])
+def contact():
+    if request.method=='POST':
+        return render_template("contact.html")
+    else:
+        pass
+
 
 @app.route("/<page>")
 def get_page(page):
     if (page == "about"):
         return render_template("about.html")
-    if (page == "contact"):
-        return render_template("contact.html")
     if (page == "home"):
         return render_template("index.html")
     else:
