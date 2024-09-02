@@ -1,10 +1,10 @@
+import wtforms
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import *
+from wtforms.validators import *
 import csv
-
 '''
 Red underlines? Install the required packages first: 
 Open the Terminal in PyCharm (bottom left). 
@@ -17,14 +17,18 @@ pip3 install -r requirements.txt
 
 This will install the packages from requirements.txt for this project.
 '''
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 Bootstrap5(app)
 
-
 class CafeForm(FlaskForm):
-    cafe = StringField('Cafe name', validators=[DataRequired()])
+    name = StringField('Cafe name', validators=[DataRequired()])
+    location = URLField('Location', validators=[DataRequired()])
+    open = TimeField('Opening Time', validators=[DataRequired()])
+    close = TimeField('Closing Time', validators=[DataRequired()])
+    coffee = SelectField('Coffee Rating', validators=[DataRequired()],choices=["☕","☕☕","☕☕☕","☕☕☕☕","☕☕☕☕☕"])
+    wifi = SelectField('Wifi Rating', validators=[DataRequired()],choices=["✘","💪","💪💪","💪💪💪","💪💪💪💪","💪💪💪💪💪"])
+    power = SelectField('Power Socket Availability', validators=[DataRequired()],choices=["✘","🔌","🔌🔌","🔌🔌🔌","🔌🔌🔌🔌","🔌🔌🔌🔌🔌"])
     submit = SubmitField('Submit')
 
 # Exercise:
@@ -42,11 +46,18 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/add')
+@app.route('/add',methods=['GET','POST'])
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
-        print("True")
+        with open("cafe-data.csv", mode="a", encoding='utf-8') as csv_file:
+            csv_file.write(f"\n{form.name.data},"
+                           f"{form.location.data},"
+                           f"{form.open.data},"
+                           f"{form.close.data},"
+                           f"{form.coffee.data},"
+                           f"{form.wifi.data},"
+                           f"{form.power.data}")
     # Exercise:
     # Make the form write a new row into cafe-data.csv
     # with   if form.validate_on_submit()
@@ -60,6 +71,7 @@ def cafes():
         list_of_rows = []
         for row in csv_data:
             list_of_rows.append(row)
+        list_of_rows.pop(0)
     return render_template('cafes.html', cafes=list_of_rows)
 
 
