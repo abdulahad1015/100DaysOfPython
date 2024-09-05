@@ -3,8 +3,6 @@ from post import Post
 
 articles = Post()
 
-response = requests.get(
-    "https://docs.google.com/forms/d/e/1FAIpQLSeg15H9Ry2k1SoBLF0PW_iV-Nfh5WQDAcpzyaLXjt3b16jdpw/viewform?usp=sf_link")
 
 app = Flask(__name__)
 
