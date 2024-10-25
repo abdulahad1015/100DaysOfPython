@@ -19,7 +19,7 @@ This will install the packages from requirements.txt for this project.
 
 app = Flask(__name__)
 app.secret_key = "danish786"
-bootstrap = Bootstrap5(app)
+bootstrap =  Bootstrap5(app)
 
 class MyForm(FlaskForm):
     email = EmailField(label='email', validators=[DataRequired()])

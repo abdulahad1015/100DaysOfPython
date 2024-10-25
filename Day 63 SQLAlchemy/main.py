@@ -1,5 +1,6 @@
+#Was designed to use SqlLite but now modified to use MySql
+
 from flask import Flask, render_template, request, redirect, url_for
-import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float
@@ -10,11 +11,15 @@ class Base(DeclarativeBase):
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
+
+# MySQL database configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/books_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
-
+# Define the Book model (table schema)
 class Book(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(250), unique=True)
@@ -22,16 +27,9 @@ class Book(db.Model):
     rating: Mapped[float] = mapped_column(Float, nullable=False)
 
 
-# with app.app_context():
-#     book = Book(title='Harry Potter and the Philosophers Stone', author='J.K Rowling',rating=9.5)
-#     db.session.add(book)
-#     db.session.commit()
-
-# with app.app_context():
-#     result=db.session.execute(db.select(Book).where(Book.rating>9))
-#
-#     for i in result.scalars().all():
-#         print(f"{i.title}, {i.author}, {i.rating}")
+# Ensure the tables are created when the app starts
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -39,18 +37,17 @@ def home():
     with app.app_context():
         result = db.session.execute(db.select(Book))
         all_books = result.scalars().all()
-        if (len(all_books) == 0):
+        if len(all_books) == 0:
             return render_template('index.html', books="0")
         return render_template('index.html', books=all_books)
 
 
 @app.route("/add", methods=['GET', 'POST'])
 def add():
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         with app.app_context():
             data = request.form.to_dict()
             book = Book(title=data['title'], author=data['author'], rating=data['rating'])
-            print(book)
             db.session.add(book)
             db.session.commit()
             return redirect(url_for('home'))
@@ -62,20 +59,18 @@ def delete(num):
     with app.app_context():
         result = db.session.execute(db.select(Book).where(Book.id == num))
         book = result.scalar()
-        msg = db.session.delete(book)
+        db.session.delete(book)
         db.session.commit()
-        print(book, msg)
     return redirect(url_for('home'))
 
 
 @app.route("/update/<num>", methods=['GET', 'POST'])
 def update(num):
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         data = request.form.to_dict()
         with app.app_context():
             book_to_update = db.session.execute(db.select(Book).where(Book.id == num)).scalar()
-            book_to_update.rating=data['rating']
-            print(data,)
+            book_to_update.rating = data['rating']
             db.session.commit()
         return redirect(url_for('home'))
     else:

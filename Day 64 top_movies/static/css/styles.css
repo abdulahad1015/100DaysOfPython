@@ -212,3 +212,7 @@
  .release_date {
 	 font-weight: normal;
 }
+.list{
+	font-weight: bold;
+   margin-left: 1rem;  /* Removes the default margin */
+}
