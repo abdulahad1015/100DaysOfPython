@@ -1,3 +1,4 @@
+#
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -27,9 +28,9 @@ class InstaFollower:
         not_now = self.driver.find_element(By.XPATH, "//div[text()='Not now']")
         not_now.click()
         time.sleep(5)
-        not_now = self.driver.find_element(By.XPATH, "//button[text()='Not Now']")
-        not_now.click()
-        time.sleep(1)
+        # not_now = self.driver.find_element(By.XPATH, "//button[text()='Not Now']")
+        # not_now.click()
+        # time.sleep(1)
         # search_icon = self.driver.find_element(By.CSS_SELECTOR, "svg[aria-label='Search']")
         # search_icon.click()
         # time.sleep(0.5)

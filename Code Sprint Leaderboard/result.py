@@ -1,9 +1,5 @@
 import time
-
-from bs4 import BeautifulSoup
 import requests
-import vlawyer
-import lxml
 WRONG_SUBMISSION_PENALTY = 20
 
 def get_participants(contest_no):
@@ -39,7 +35,7 @@ def get_participants(contest_no):
                 # elif (participants[id]['problem'][i[1]]['time'] < i[3]):
 
 
-                elif (i[2]==1 or i[4]):
+                elif (i[2]==1 or len(i)>4):
                     participants[id]['problem'][i[1]]['verdict'] = i[2]
                     participants[id]['problem'][i[1]]['time'] = i[3]
                     participants[id]['penalty'] += int((i[3]) / 60)
@@ -56,8 +52,10 @@ def get_participants(contest_no):
 
                 participants[id]['problem'][i[1]] = {'submissions': 1, 'verdict': i[2], 'time': int(i[3])}
                 participants[id]['score'] += i[2]
-                if (i[2] == 1 or i[4]):
+                if (i[2] == 1 or len(i)>4):
+
                     if (len(i)>4):
+
                         participants[id]['score'] += round(i[4]/i[5],1)
                     participants[id]['penalty'] += int(i[3] / 60)
         else:
